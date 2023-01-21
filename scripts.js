@@ -1,11 +1,17 @@
-//Função para perguntar o nome do Usuario
-let nomeDeUsuario = " "
+//Função para perguntar o nome do usuário;
+let nomeUsuario = " "
 
 function perguntaNome(){
-    while(nomeDeUsuario === " "){
-        nomeDeUsuario = prompt('Qual é o seu nome?');
+    while(nomeUsuario === " "){
+        nomeUsuario = prompt('Qual é o seu nome?');
     }
-    console.log(perguntaNome);
+    acessarBatePapo();
+}
+
+//função para ter acesso ao bate papo;
+function acessarBatePapo(){
+    const nomeDoUsuario = {name: nomeUsuario};
+    const usuario = axios.post( "https://mock-api.driven.com.br/api/v6/uol/participants", nomeDoUsuario);
 }
 
 perguntaNome();
