@@ -44,7 +44,7 @@ function renderizarMensagens(mensagens) {
     let buscar = document.querySelector(".chat");
     for (let i = 0; i < mensagem.length; i++) {
       if (mensagem[i].type == "message") {
-        buscar.innerHTML += `<div class="mensagemParaTodos caixaMensagem"> <time>(${mensagem[i].time})</time> ${mensagem[i].from} para <strong>Todos</strong>${mensagem[i].to} ${mensagem[i].text}</div>`;
+        buscar.innerHTML += `<div class="mensagemParaTodos caixaMensagem"> <time>(${mensagem[i].time})</time> ${mensagem[i].from} para<strong>todos:</strong> ${mensagem[i].to} ${mensagem[i].text}</div>`;
       } else if (mensagem[i].type == "status") {
         buscar.innerHTML += `<div class="entradaEsaida caixaMensagem"><time>(${mensagem[i].time})</time> ${mensagem[i].from} ${mensagem[i].text}</div>`;
       } else if (mensagem[i].type == "private_message") {
@@ -53,6 +53,24 @@ function renderizarMensagens(mensagens) {
     }
     setInterval(buscarMensagens, 3000);
     buscar.lastElementChild.scrollIntoView();
+  }
+
+//enviar mensagens;
+function enviarMensagens() {
+    let enviarParaTodos = document.querySelector(".digitar").value;
+    let enviar = {
+      from: nomeUsuario,
+      to: "" ,
+      text: enviarParaTodos,
+      type: "message"
+    };
+    console.log(enviar);
+    let promessa = axios.post(
+      "https://mock-api.driven.com.br/api/v6/uol/messages",
+      enviar
+    );
+  
+    promessa.then(renderizarMensagens);
   }
 
 
