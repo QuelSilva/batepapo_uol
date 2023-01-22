@@ -6,29 +6,35 @@ function perguntaNome(){
         nomeUsuario = prompt('Qual é o seu nome?');
     }
     acessarBatePapo();
-    matemConexao();
-    buscarMensagens();
 }
 
 //função para ter acesso ao bate papo;
 function acessarBatePapo(){
     const nomeDoUsuario = {name: nomeUsuario};
     const usuario = axios.post( "https://mock-api.driven.com.br/api/v6/uol/participants", nomeDoUsuario);
+    usuario.then((res)=>{
+      console.log(res)
+      setInterval(matemConexao, 5000);
+      setInterval(buscarMensagens, 3000);
+
+    });
 }
 
 
 //função que mantém a conexão do usuário;
 function matemConexao(){
     const conexaoDoUsuario = {name: nomeUsuario};
-    const conectado = axios.post ("https://mock-api.driven.com.br/api/v6/uol/status",conexaoDoUsuario);
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status",conexaoDoUsuario);
 
-    conectado.then(resultado);
-    console.log(matemConexao);
+    
+    promise.then((res)=>{
+      console.log(res);
+      console.log("mantendo conexão com sucesso")
+    })
     
 }
 
-//só pra conferir se deu certo;
-function resultado(){}
+
 
 //busca pela mensagem do usuário;
 function buscarMensagens() {
@@ -36,7 +42,7 @@ function buscarMensagens() {
       "https://mock-api.driven.com.br/api/v6/uol/messages"
     );
     buscaDeMensagem.then(renderizarMensagens);
-  }
+}
 
 //função que vai fazer tudo funcionar;
 function renderizarMensagens(mensagens) {
@@ -44,14 +50,15 @@ function renderizarMensagens(mensagens) {
     let buscar = document.querySelector(".chat");
     for (let i = 0; i < mensagem.length; i++) {
       if (mensagem[i].type == "message") {
-        buscar.innerHTML += `<div class="mensagemParaTodos caixaMensagem"> <time>(${mensagem[i].time})</time> ${mensagem[i].from} para<strong>todos:</strong> ${mensagem[i].to} ${mensagem[i].text}</div>`;
+        buscar.innerHTML += `<div class="mensagemParaTodos caixaMensagem"> <time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> para <strong>${mensagem[i].to}</strong> ${mensagem[i].text}</div>`;
       } else if (mensagem[i].type == "status") {
-        buscar.innerHTML += `<div class="entradaEsaida caixaMensagem"><time>(${mensagem[i].time})</time> ${mensagem[i].from} ${mensagem[i].text}</div>`;
+        buscar.innerHTML += `<div class="entradaEsaida caixaMensagem"><time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> ${mensagem[i].text}</div>`;
       } else if (mensagem[i].type == "private_message") {
-        buscar.innerHTML += `<div class="mensagemReservada caixaMensagem"><time>(${mensagem[i].time})</time> ${mensagem[i].from}Reservado para ${mensagem[i].to} ${mensagem[i].text} </div>`;
+        buscar.innerHTML += `<div class="mensagemReservada caixaMensagem"><time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> Reservado para ${mensagem[i].to} ${mensagem[i].text} </div>`;
       }
     }
-    setInterval(buscarMensagens, 3000);
+
+    console.log('renderizando')
     buscar.lastElementChild.scrollIntoView();
   }
 
@@ -60,7 +67,7 @@ function enviarMensagens() {
     let enviarParaTodos = document.querySelector(".digitar").value;
     let enviar = {
       from: nomeUsuario,
-      to: "" ,
+      to: " todos" ,
       text: enviarParaTodos,
       type: "message"
     };
@@ -71,7 +78,7 @@ function enviarMensagens() {
     );
   
     promessa.then(renderizarMensagens);
-  }
+}
 
 
 
