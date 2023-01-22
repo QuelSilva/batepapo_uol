@@ -6,6 +6,7 @@ function perguntaNome(){
         nomeUsuario = prompt('Qual é o seu nome?');
     }
     acessarBatePapo();
+    buscarMensagens();
 }
 
 //função para ter acesso ao bate papo;
@@ -16,7 +17,6 @@ function acessarBatePapo(){
       console.log(res)
       setInterval(matemConexao, 5000);
       setInterval(buscarMensagens, 3000);
-
     });
 }
 
@@ -28,10 +28,8 @@ function matemConexao(){
 
     
     promise.then((res)=>{
-      console.log(res);
       console.log("mantendo conexão com sucesso")
     })
-    
 }
 
 
@@ -77,7 +75,7 @@ function enviarMensagens() {
       enviar
     );
   
-    promessa.then(renderizarMensagens);
+    promessa.then(buscarMensagens);
 }
 
 
