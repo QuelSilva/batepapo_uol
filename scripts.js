@@ -48,11 +48,11 @@ function renderizarMensagens(mensagens) {
     let buscar = document.querySelector(".chat");
     for (let i = 0; i < mensagem.length; i++) {
       if (mensagem[i].type == "message") {
-        buscar.innerHTML += `<div class="mensagemParaTodos caixaMensagem"> <time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> para <strong>${mensagem[i].to}</strong> ${mensagem[i].text}</div>`;
+        buscar.innerHTML += `<div data-test="message" class="mensagemParaTodos caixaMensagem"> <time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> para <strong>${mensagem[i].to}</strong> ${mensagem[i].text}</div>`;
       } else if (mensagem[i].type == "status") {
-        buscar.innerHTML += `<div class="entradaEsaida caixaMensagem"><time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> ${mensagem[i].text}</div>`;
+        buscar.innerHTML += `<div data-test="message" class="entradaEsaida caixaMensagem"><time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> ${mensagem[i].text}</div>`;
       } else if (mensagem[i].type == "private_message") {
-        buscar.innerHTML += `<div class="mensagemReservada caixaMensagem"><time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> Reservado para ${mensagem[i].to} ${mensagem[i].text} </div>`;
+        buscar.innerHTML += `<div data-test="message" class="mensagemReservada caixaMensagem"><time>(${mensagem[i].time})</time> <strong>${mensagem[i].from}</strong> Reservado para ${mensagem[i].to} ${mensagem[i].text} </div>`;
       }
     }
 
